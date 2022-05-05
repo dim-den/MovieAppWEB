@@ -1,43 +1,50 @@
-import http from 'http';
-import express, { Express } from 'express';
-import morgan from 'morgan';
-import routes from './routes/post';
+import express, {Request, Response} from 'express';
+import { createConnection } from "typeorm";
+import { router } from './routes/indexRoute';
+import { db_config } from './db/config';
 
-const router: Express = express();
 
-/** Logging */
-router.use(morgan('dev'));
-/** Parse the request */
-router.use(express.urlencoded({ extended: false }));
-/** Takes care of JSON data */
-router.use(express.json());
 
-/** RULES OF OUR API */
-router.use((req, res, next) => {
-    // set the CORS policy
-    res.header('Access-Control-Allow-Origin', '*');
-    // set the CORS headers
-    res.header('Access-Control-Allow-Headers', 'origin, X-Requested-With,Content-Type,Accept, Authorization');
-    // set the CORS method headers
-    if (req.method === 'OPTIONS') {
-        res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST');
-        return res.status(200).json({});
-    }
-    next();
-});
+class Server {
+  private app: express.Application;
 
-/** Routes */
-router.use('/', routes);
+  constructor(){
+    this.app = express(); // init the application
+    this.configuration();
+    this.dbconnection();
+    this.routes();
+  }
 
-/** Error handling */
-router.use((req, res, next) => {
-    const error = new Error('not found');
-    return res.status(404).json({
-        message: error.message
+  /**
+   * Method to configure the server,
+   * If we didn't configure the port into the environment 
+   * variables it takes the default port 3000
+   */
+  public configuration() {
+    this.app.set('port', process.env.PORT || 3001);
+    this.app.use(express.json());
+  }
+
+  public async dbconnection() {
+    await createConnection(db_config);
+  }
+
+  /**
+   * Method to configure the routes
+   */
+  public async routes(){
+    this.app.use(`/api/`, router); // Configure the new routes of the controller post
+  }
+
+  /**
+   * Used to start the server
+   */
+  public start(){
+    this.app.listen(this.app.get('port'), () => {
+      console.log(`Server is listening ${this.app.get('port')} port.`);
     });
-});
+  }
+}
 
-/** Server */
-const httpServer = http.createServer(router);
-const PORT: any = process.env.PORT ?? 6060;
-httpServer.listen(PORT, () => console.log(`The server is running on port ${PORT}`));
+const server = new Server(); // Create server instance
+server.start(); // Execute the server
