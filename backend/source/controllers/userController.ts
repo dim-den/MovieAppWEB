@@ -4,7 +4,7 @@ import { UserService } from '../services/userService';
 import { AppError } from '../util/errors';
 
 class UserController {
-  async delete(req: Request, res: Response, next: any) {
+  async deleteById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const userService = new UserService();
     try {
@@ -14,7 +14,7 @@ class UserController {
     }
   }
 
-  async get(req: Request, res: Response, next: any) {
+  async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const userService = new UserService();
     try {

@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
 import { createConnection } from "typeorm";
 import { router } from './routes/indexRoute';
-import { db_config } from './db/config';
+import { DbConfig } from './config/dbConfig';
 
 
 
@@ -26,7 +26,7 @@ class Server {
   }
 
   public async dbconnection() {
-    await createConnection(db_config);
+    await createConnection(DbConfig);
   }
 
   /**

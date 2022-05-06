@@ -1,12 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, Column,OneToMany } from 'typeorm';
 import { UserRole } from '../constants/userRole';
 import bcrypt from 'bcryptjs';
-
+import { BaseEntity } from './baseEntity';
+import { FilmReview } from './filmReview';
 
 @Entity({ name: 'user' })
-export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+export class User extends BaseEntity{
 
   @Column('varchar')
   name: string;
@@ -25,8 +24,12 @@ export class User {
 
   @Column({ nullable: true, type: 'varchar' })
     token!: string;
+
+  @OneToMany(type => FilmReview, filmReview => filmReview.user) 
+    filmReviews!: FilmReview[];  
     
   public constructor(name: string, email: string) {
+    super();
     this.name = name;
     this.email = email;
   }
