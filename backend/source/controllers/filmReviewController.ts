@@ -37,6 +37,17 @@ class FilmReviewController {
     }
   }
 
+  async getByUserId(req: Request, res: Response, next: any) {
+    const userId: number = parseInt(req.params.id);
+    const filmReviewService = new FilmReviewService();
+    try {
+      const info = await filmReviewService.getFilmReviewsByUserId(userId);
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async leaveReview(req: Request, res: Response, next: any) {
     const filmReviewService = new FilmReviewService();
     try {

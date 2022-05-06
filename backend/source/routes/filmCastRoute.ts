@@ -7,3 +7,5 @@ filmCastRouter.post('/save', FilmCastController.saveFilmCast);
 filmCastRouter.get('/:id', FilmCastController.getById);
 filmCastRouter.delete('/:id', FilmCastController.deleteById);
 filmCastRouter.get('/film/:id', FilmCastController.getByFilmId);
+filmCastRouter.get('/actor/:id', FilmCastController.getByActorId);
+filmCastRouter.put('/update/:id', FilmCastController.updateFilmCast);

@@ -8,3 +8,4 @@ filmReviewRouter.get('/:id', FilmReviewController.getById);
 filmReviewRouter.delete('/:id', FilmReviewController.deleteById);
 filmReviewRouter.get('/score/:id', FilmReviewController.getFilmAvgScore);
 filmReviewRouter.get('/film/:id', FilmReviewController.getByFilmId);
+filmReviewRouter.get('/user/:id', FilmReviewController.getByUserId);

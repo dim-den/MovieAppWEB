@@ -33,8 +33,13 @@ export class FilmReviewService {
       if (filmReview) return filmReview;
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film reviews not found');
     }  
-  
-  
+
+    async getFilmReviewsByUserId(userId: number) {
+      const filmReview = await this.filmReviewRepository.find({userId});
+      if (filmReview) return filmReview;
+      else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film reviews not found');
+    }  
+
     async deleteFilmReview(filmReviewId: number) {
         const filmReview = await this.filmReviewRepository.findOne({id: filmReviewId});
         if (!filmReview) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film review not found');

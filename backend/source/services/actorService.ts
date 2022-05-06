@@ -21,6 +21,23 @@ export class ActorService {
         else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');
     }
 
+    async updateActor(actorId: number, actor: Actor) {
+        const existingActor = await this.actorRepository.findOne({ id: actorId });
+        if (!existingActor) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');
+        else {
+            try {
+                actor.id = actorId;
+                actor.name = actor.name || existingActor.name;
+                actor.surname = actor.surname || existingActor.surname;
+                actor.country = actor.country || existingActor.country;
+                actor.birthday = actor.birthday || existingActor.birthday;
+                await this.actorRepository.save(actor);
+            } catch (err) {
+                throw new AppError('Failed to delete actor');
+            }
+        }
+    }
+
     async deleteActor(actorId: number) {
         const actor = await this.actorRepository.findOne({ id: actorId });
         if (!actor) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');

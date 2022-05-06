@@ -6,3 +6,4 @@ export const actorRouter = express.Router();
 actorRouter.post('/save', ActorController.saveActor);
 actorRouter.get('/:id', ActorController.getById);
 actorRouter.delete('/:id', ActorController.deleteById);
+actorRouter.put('/update/:id', ActorController.updateActor);

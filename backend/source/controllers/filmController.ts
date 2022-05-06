@@ -15,6 +15,18 @@ class FilmController {
     }
   }
 
+  async updateFilm(req: Request, res: Response, next: any) {
+    const filmId: number = parseInt(req.params.id);
+    const filmService = new FilmService();
+    try {
+      const film = req.body as Film;
+      await filmService.updateFilm( filmId, film);
+      res.status(201).json({ message: 'Film succefully updated' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const filmService = new FilmService();

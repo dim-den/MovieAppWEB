@@ -15,6 +15,18 @@ class ActorController {
     }
   }
 
+  async updateActor(req: Request, res: Response, next: any) {
+    const actorId: number = parseInt(req.params.id);
+    const actorService = new ActorService();
+    try {
+      const actor = req.body as Actor;
+      await actorService.updateActor(actorId, actor);
+      res.status(201).json({ message: 'Actor succefully updated' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const actorService = new ActorService();

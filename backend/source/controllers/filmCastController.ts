@@ -15,6 +15,18 @@ class FilmCastController {
     }
   }
 
+  async updateFilmCast(req: Request, res: Response, next: any) {
+    const filmCastId: number = parseInt(req.params.id);
+    const filmCastService = new FilmCastService();
+    try {
+      const filmCast = req.body as FilmCast;
+      await filmCastService.updateFilmCast( filmCastId, filmCast);
+      res.status(201).json({ message: 'Film cast succefully updated' });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const filmCastService = new FilmCastService();
@@ -31,6 +43,17 @@ class FilmCastController {
     const filmCastService = new FilmCastService();
     try {
       const info = await filmCastService.getFilmCastsByFilmId(filmId);
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
+  async getByActorId(req: Request, res: Response, next: any) {
+    const actorId: number = parseInt(req.params.id);
+    const filmCastService = new FilmCastService();
+    try {
+      const info = await filmCastService.getFilmCastsByActorId(actorId);
       res.status(200).json(info);
     } catch (err: any) {
       next(new AppError(err.message));
