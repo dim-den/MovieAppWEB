@@ -2,24 +2,19 @@ import express, {Request, Response} from 'express';
 import { createConnection } from "typeorm";
 import { router } from './routes/indexRoute';
 import { DbConfig } from './config/dbConfig';
-
-
+import { handleErrorMiddleware, handleWrongRoute } from './middleware/errorHandling';
 
 class Server {
   private app: express.Application;
 
   constructor(){
-    this.app = express(); // init the application
+    this.app = express(); 
+
     this.configuration();
     this.dbconnection();
     this.routes();
   }
 
-  /**
-   * Method to configure the server,
-   * If we didn't configure the port into the environment 
-   * variables it takes the default port 3000
-   */
   public configuration() {
     this.app.set('port', process.env.PORT || 3001);
     this.app.use(express.json());
@@ -29,16 +24,17 @@ class Server {
     await createConnection(DbConfig);
   }
 
-  /**
-   * Method to configure the routes
-   */
   public async routes(){
-    this.app.use(`/api/`, router); // Configure the new routes of the controller post
+    // handle rest api
+    this.app.use(`/api/`, router); 
+
+    // handle errors
+    this.app.use(handleErrorMiddleware);
+
+    // handle wrong routes
+    router.use(handleWrongRoute);
   }
 
-  /**
-   * Used to start the server
-   */
   public start(){
     this.app.listen(this.app.get('port'), () => {
       console.log(`Server is listening ${this.app.get('port')} port.`);
