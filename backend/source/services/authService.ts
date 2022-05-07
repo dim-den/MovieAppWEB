@@ -4,6 +4,8 @@ import { UserRepository } from '../repositories/userRepository';
 import { AppError, HttpError } from '../util/errors';
 import { httpErrorStatusCodes } from '../constants/httpErrorStatusCode';
 import { UserRole } from '../constants/userRole';
+import { jwtConfig } from '../config/jwtConfig';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
 export class AuthService {
@@ -30,22 +32,19 @@ export class AuthService {
 
   async setFreshToken(oldToken: string) {
     const user = await this.userRepository.findByToken(oldToken);
-
+    console.log(user);
     if (user != undefined) {
-    //   const newToken = jwt.sign(
-    //     {
-    //       email: user.email,
-    //       userId: user.id,
-    //     },
-    //     jwt_config.secret
-    //   );
-
-    const newToken = 'test';
-
+      const newToken = jwt.sign(
+        {
+          email: user.email,
+          userId: user.id,
+        },
+        jwtConfig.secret!,
+        {expiresIn: 24 * 60 * 60}
+      );
       await this.userRepository.setNewToken(user.id, newToken);
       return newToken;
-    } 
-    else throw new AppError("Can't find user by provided token");
+    } else throw new AppError("Can't find user by provided token");
   }
 
   async getUserRole(token: string) {
@@ -81,14 +80,14 @@ export class AuthService {
     const candidate = await this.findUserByEmail(providedEmail);
     if (candidate) {
       if (await this.passwordsMatch(providedPass, candidate.password)) {
-        // const token = jwt.sign(
-        //   {
-        //     email: candidate.email,
-        //     userId: candidate.id,
-        //   },
-        //   jwt_config.secret
-        // );
-        const token = 'test';
+        const token = jwt.sign(
+          {
+            email: candidate.email,
+            userId: candidate.id,
+          },
+          jwtConfig.secret!,
+          {expiresIn: 24 * 60 * 60}
+        );
         await this.saveLoginToken(candidate.id, token);
         return token;
       } else throw new HttpError(httpErrorStatusCodes.UNAUTHORIZED, 'Wrong password');

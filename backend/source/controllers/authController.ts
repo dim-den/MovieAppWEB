@@ -6,6 +6,12 @@ class AuthController {
     const authService = new AuthService();
     try {
       const token = await authService.loginUser(req.body.email, req.body.password);
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'strict'
+      });
+      
       res.status(200).json({ token: token });
     } catch (err) {
       next(err);

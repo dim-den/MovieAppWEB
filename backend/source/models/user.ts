@@ -23,7 +23,7 @@ export class User extends BaseEntity{
   password!: string;
 
   @Column({ nullable: true, type: 'varchar' })
-    token!: string;
+  token!: string;
 
   @OneToMany(type => FilmReview, filmReview => filmReview.user) 
     filmReviews!: FilmReview[];  

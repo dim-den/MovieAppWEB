@@ -48,11 +48,15 @@ class FilmReviewController {
     }
   }
 
-  async leaveReview(req: Request, res: Response, next: any) {
+  async saveReview(req: Request, res: Response, next: any) {
+    const token = req.headers.authorization!.split(' ')[1];
+
     const filmReviewService = new FilmReviewService();
     try {
       const filmReview = req.body as FilmReview;
-      await filmReviewService.leaveFilmReview(filmReview);
+      filmReview.published = new Date();
+
+      await filmReviewService.leaveFilmReview(token, filmReview);
       res.status(201).json({ message: 'New film review saved' });
     } catch (err) {
       next(err);

@@ -22,8 +22,8 @@ class ActorController {
       const actor = req.body as Actor;
       await actorService.updateActor(actorId, actor);
       res.status(201).json({ message: 'Actor succefully updated' });
-    } catch (err) {
-      next(err);
+    } catch (err: any) {
+      next(new AppError(err.message));
     }
   }
 
@@ -44,8 +44,9 @@ class ActorController {
       const actor = req.body as Actor; 
       await actorService.saveActor(actor);
       res.status(201).json({ message: 'New actor saved' });
-    } catch (err) {
-      next(err);
+    } catch (err: any) {
+      console.log('sec123');
+      next(new AppError(err.message));
     }
   }
 }

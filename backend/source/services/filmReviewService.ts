@@ -3,16 +3,20 @@ import { AppError, HttpError } from '../util/errors';
 import { httpErrorStatusCodes } from '../constants/httpErrorStatusCode';
 import { FilmReviewRepository } from '../repositories/filmReviewRepository';
 import { FilmReview } from '../models/filmReview';
+import { UserRepository } from '../repositories/userRepository';
 
 export class FilmReviewService {
-
     private filmReviewRepository: FilmReviewRepository;
+    private userRepository: UserRepository;
+
     public constructor() {
       this.filmReviewRepository = getCustomRepository(FilmReviewRepository);
+      this.userRepository = getCustomRepository(UserRepository);
     }
   
-    async leaveFilmReview(filmReview: FilmReview) {
-      const existingFilmReview = await this.filmReviewRepository.findOne({filmId: filmReview.filmId, userId: filmReview.userId});
+    async leaveFilmReview(token:string, filmReview: FilmReview) {
+      let user = await this.userRepository.findByToken(token);
+      const existingFilmReview = await this.filmReviewRepository.findOne({filmId: filmReview.filmId, userId: user?.id});
 
       if(!existingFilmReview) return await this.filmReviewRepository.save(filmReview);
       else {

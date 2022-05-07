@@ -6,7 +6,7 @@ import { User } from './user';
 @Entity({ name: 'filmReview' })
 export class FilmReview extends BaseEntity {
 
-  @Column('varchar',  {length: 2048})
+  @Column('varchar',  {nullable: true, length: 2048})
   review!: string;
 
   @Column('int')

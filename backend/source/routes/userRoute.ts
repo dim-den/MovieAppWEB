@@ -1,10 +1,14 @@
 import express from 'express';
 import UserController from '../controllers/userController';
+import { UserRole } from '../constants/userRole';
+import { checkRole } from '../middleware/checkRole';
+import { authenticateJWT } from '../middleware/jwt';
+import { newBirthdayRules, newNameRules, newPasswordRules, validate } from '../middleware/validationRules';
 
 export const userRouter = express.Router();
 
 userRouter.get('/:id', UserController.getById);
-userRouter.put('/changePassword', UserController.changePassword);
-userRouter.put('/changeName', UserController.changeName);
-userRouter.put('/changeBirthday',UserController.changeBirthday);
-userRouter.delete('/:id', UserController.deleteById);
+userRouter.put('/changePassword', authenticateJWT, newPasswordRules(), validate, UserController.changePassword);
+userRouter.put('/changeName', authenticateJWT, newNameRules(), validate, UserController.changeName);
+userRouter.put('/changeBirthday',authenticateJWT, newBirthdayRules(), validate, UserController.changeBirthday);
+userRouter.delete('/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], UserController.deleteById);
