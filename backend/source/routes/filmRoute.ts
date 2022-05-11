@@ -8,6 +8,7 @@ import { newFilmRules, updateFilmRules, validate } from '../middleware/validatio
 export const filmRouter = express.Router();
 
 filmRouter.post('/save', [authenticateJWT, checkRole(UserRole.ADMIN)],  newFilmRules(), validate, FilmController.saveFilm);
+filmRouter.get('/all', FilmController.getAll);
 filmRouter.get('/:id', FilmController.getById);
 filmRouter.delete('/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], FilmController.deleteById);
 filmRouter.put('/update/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], updateFilmRules(), validate, FilmController.updateFilm);

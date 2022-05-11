@@ -21,6 +21,10 @@ export class ActorService {
         else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');
     }
 
+    async getActors() {
+        return await this.actorRepository.find();
+    }
+
     async updateActor(actorId: number, actor: Actor) {
         const existingActor = await this.actorRepository.findOne({ id: actorId });
         if (!existingActor) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');

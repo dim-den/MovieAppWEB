@@ -7,7 +7,9 @@ import { newBirthdayRules, newNameRules, newPasswordRules, validate } from '../m
 
 export const userRouter = express.Router();
 
-userRouter.get('/:id', UserController.getById);
+userRouter.get('/all', [authenticateJWT, checkRole(UserRole.ADMIN)], UserController.getAll);
+userRouter.post('/token', UserController.getByToken);
+userRouter.get('/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], UserController.getById);
 userRouter.put('/changePassword', authenticateJWT, newPasswordRules(), validate, UserController.changePassword);
 userRouter.put('/changeName', authenticateJWT, newNameRules(), validate, UserController.changeName);
 userRouter.put('/changeBirthday',authenticateJWT, newBirthdayRules(), validate, UserController.changeBirthday);

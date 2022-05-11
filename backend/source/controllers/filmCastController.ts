@@ -38,6 +38,16 @@ class FilmCastController {
     }
   }
 
+  async getAll(req: Request, res: Response, next: any) {
+    const filmCastService = new FilmCastService();
+    try {
+      const info = await filmCastService.getFilmCasts();
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async getByFilmId(req: Request, res: Response, next: any) {
     const filmId: number = parseInt(req.params.id);
     const filmCastService = new FilmCastService();

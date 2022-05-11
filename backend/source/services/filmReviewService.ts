@@ -12,7 +12,7 @@ export class FilmReviewService {
     public constructor() {
       this.filmReviewRepository = getCustomRepository(FilmReviewRepository);
       this.userRepository = getCustomRepository(UserRepository);
-    }
+    }    
   
     async leaveFilmReview(token:string, filmReview: FilmReview) {
       let user = await this.userRepository.findByToken(token);
@@ -26,11 +26,37 @@ export class FilmReviewService {
       }
     }
 
+    async saveFilmReview(filmReview: FilmReview) {
+      return await this.filmReviewRepository.save(filmReview);
+   }
+
     async getFilmReview(filmReviewId: number) {
       const filmReview = await this.filmReviewRepository.findOne({id: filmReviewId});
       if (filmReview) return filmReview;
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film review not found');
     }  
+
+    async getFilmReviews() {
+      return await this.filmReviewRepository.find();
+    }
+
+    async updateFilmReview(filmReviewId: number, filmReview: FilmReview) {
+      const existingFilmReview= await this.filmReviewRepository.findOne({ id: filmReviewId });
+      if (!existingFilmReview) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film review not found');
+      else {
+          try {
+              filmReview.id = filmReviewId;
+              filmReview.filmId = filmReview.filmId || existingFilmReview.filmId;
+              filmReview.userId = filmReview.userId || existingFilmReview.userId;
+              filmReview.review = filmReview.review || existingFilmReview.review;
+              filmReview.score = filmReview.score || existingFilmReview.score;
+              filmReview.published = filmReview.published || existingFilmReview.published;
+              await this.filmReviewRepository.save(filmReview);
+          } catch (err) {
+              throw new AppError('Failed to update film review');
+          }
+      }
+    }
 
     async getFilmReviewsByFilmId(filmId: number) {
       const filmReview = await this.filmReviewRepository.find({filmId});

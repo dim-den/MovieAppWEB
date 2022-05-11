@@ -21,6 +21,10 @@ export class FilmService {
     else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film not found');
   }
 
+  async getFilms() {
+    return await this.filmRepository.find();
+  }
+
   async updateFilm(filmId: number, film: Film) {
     const existingFilm = await this.filmRepository.findOne({ id: filmId });
     if (!existingFilm) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film not found');

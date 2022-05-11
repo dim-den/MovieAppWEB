@@ -38,6 +38,16 @@ class ActorController {
     }
   }
 
+  async getAll(req: Request, res: Response, next: any) {
+    const actorService = new ActorService();
+    try {
+      const info = await actorService.getActors();
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async saveActor(req: Request, res: Response, next: any) {
     const actorService = new ActorService();
     try {

@@ -38,6 +38,16 @@ class FilmController {
     }
   }
 
+  async getAll(req: Request, res: Response, next: any) {
+    const filmService = new FilmService();
+    try {
+      const info = await filmService.getFilms();
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async saveFilm(req: Request, res: Response, next: any) {
     const filmService = new FilmService();
     try {

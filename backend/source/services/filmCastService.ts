@@ -21,6 +21,10 @@ export class FilmCastService {
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film cast not found');
     }  
 
+    async getFilmCasts() {
+      return await this.filmCastRepository.find();
+    }
+
     async getFilmCastsByFilmId(filmId: number) {
       const filmCast = await this.filmCastRepository.find({filmId});
       if (filmCast) return filmCast;
@@ -44,7 +48,7 @@ export class FilmCastService {
               filmCast.roleName = filmCast.roleName || existingFilmCast.roleName;
               await this.filmCastRepository.save(filmCast);
           } catch (err) {
-              throw new AppError('Failed to delete actor');
+              throw new AppError('Failed to update film cast');
           }
       }
     } 

@@ -14,6 +14,28 @@ class UserController {
     }
   }
 
+  async getByToken(req: Request, res: Response, next: any) {
+    const userService = new UserService();
+    try {
+      const token = req.body.token;
+      const info = await userService.getUserByToken(token);
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
+  async getAll(req: Request, res: Response, next: any) {
+    const userService = new UserService();
+    try {
+      const info = await userService.getUsers();
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
+
   async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
     const userService = new UserService();

@@ -5,14 +5,14 @@ class AuthController {
   async login(req: Request, res: Response, next: any) {
     const authService = new AuthService();
     try {
-      const token = await authService.loginUser(req.body.email, req.body.password);
+      const result = await authService.loginUser(req.body.email, req.body.password);
 
-      res.cookie('token', token, {
+      res.cookie('token', result.token  , {
         httpOnly: true,
         sameSite: 'strict'
       });
       
-      res.status(200).json({ token: token });
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }
@@ -22,7 +22,15 @@ class AuthController {
     const authService = new AuthService();
     try {
       await authService.registerUser(req.body.name, req.body.email, req.body.password);
-      res.status(201).json({ message: 'Succesful registration' });
+
+      const result = await authService.loginUser(req.body.email, req.body.password);
+
+      res.cookie('token', result.token  , {
+        httpOnly: true,
+        sameSite: 'strict'
+      });
+      
+      res.status(200).json(result);
     } catch (err) {
       next(err);
     }

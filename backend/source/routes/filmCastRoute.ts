@@ -8,6 +8,7 @@ import { newFilmCastRules, updateFilmCastRules, validate } from '../middleware/v
 export const filmCastRouter = express.Router();
 
 filmCastRouter.post('/save', [authenticateJWT, checkRole(UserRole.ADMIN)], newFilmCastRules(), validate, FilmCastController.saveFilmCast);
+filmCastRouter.get('/all', FilmCastController.getAll);
 filmCastRouter.get('/:id', FilmCastController.getById);
 filmCastRouter.delete('/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], FilmCastController.deleteById);
 filmCastRouter.get('/film/:id', FilmCastController.getByFilmId);
