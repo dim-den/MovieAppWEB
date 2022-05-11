@@ -1,2 +1,2 @@
 # MovieAppWEB
-Web app about movies, using node.js, typescript, angular
+Web app about movies. Backend technologies: node.js, express, typeorm, jwt authentification. Frontend: React
