@@ -1,0 +1,10 @@
+
+
+  .home {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #000;
+    font-family: "Nunito", sans-serif;
+  }
+
