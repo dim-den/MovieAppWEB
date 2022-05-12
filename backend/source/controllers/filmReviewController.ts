@@ -71,6 +71,18 @@ class FilmReviewController {
     }
   }
 
+  async getByUserIdAndFilmId(req: Request, res: Response, next: any) {
+    const userId : number = parseInt(req.query.userId?.toString()!)
+    const filmId : number = parseInt(req.query.filmId?.toString()!)
+    const filmReviewService = new FilmReviewService();
+    try {
+      const info = await filmReviewService.getFilmReviewsByUserIdAndFilmId(userId, filmId);
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async saveFilmReview(req: Request, res: Response, next: any) {
     const filmReviewService = new FilmReviewService();
     try {
@@ -102,6 +114,17 @@ class FilmReviewController {
     const filmReviewService = new FilmReviewService();
     try {
       const info = await filmReviewService.getFilmAvgScore(id);
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
+  async getUserFilmAvgScore(req: Request, res: Response, next: any) {
+    const id: number = parseInt(req.params.id);
+    const filmReviewService = new FilmReviewService();
+    try {
+      const info = await filmReviewService.getUserFilmAvgScore(id);
       res.status(200).json(info);
     } catch (err: any) {
       next(new AppError(err.message));

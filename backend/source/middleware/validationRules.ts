@@ -56,6 +56,17 @@ export function registrationRules() {
   ];
 }
 
+export function updateUserRules() {
+  return [
+    body('name', 'name lenght should be between 4 and 32' ).isString().bail().isLength({min: 4, max: 32}).optional({ checkFalsy: true, nullable: true }),
+    body('email', 'wrong email').isEmail().optional({ checkFalsy: true, nullable: true }),
+    body('password','Password rules: min lenght 6, at least 1 uppercase, 1 lowercase, 1 number').isLength({min: 6}).optional({ checkFalsy: true, nullable: true }),
+    body('role', 'role should be admin or user' ).isIn(['user', 'admin']).optional({ checkFalsy: true, nullable: true }),
+    body('birthday', 'birthday should be date (format: yyyy-mm-dd)').isDate().optional({ checkFalsy: true, nullable: true }),
+    body('token', 'token lenght should be between 16 and 512' ).isString().bail().isLength({min: 16, max: 512}).optional({ checkFalsy: true, nullable: true })
+  ];
+}
+
 export function newNameRules() {
   return [body('newName', 'name lenght should be between 4 and 32' ).isString().bail().isLength({min: 4, max: 32})];
 }

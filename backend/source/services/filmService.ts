@@ -25,6 +25,10 @@ export class FilmService {
     return await this.filmRepository.find();
   }
 
+  async getFilmsByTitleContainingTop5(title: string) {
+    return await this.filmRepository.findByTitleContainingTop5(title);
+  }
+
   async updateFilm(filmId: number, film: Film) {
     const existingFilm = await this.filmRepository.findOne({ id: filmId });
     if (!existingFilm) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film not found');
@@ -41,7 +45,7 @@ export class FilmService {
             film.fees = film.fees || existingFilm.fees;
             await this.filmRepository.save(film);
         } catch (err) {
-            throw new AppError('Failed to delete actor');
+            throw new AppError('Failed to update film');
         }
     }
   } 

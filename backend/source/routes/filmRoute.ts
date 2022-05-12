@@ -7,6 +7,7 @@ import { newFilmRules, updateFilmRules, validate } from '../middleware/validatio
 
 export const filmRouter = express.Router();
 
+filmRouter.get('/', FilmController.getByTitle);
 filmRouter.post('/save', [authenticateJWT, checkRole(UserRole.ADMIN)],  newFilmRules(), validate, FilmController.saveFilm);
 filmRouter.get('/all', FilmController.getAll);
 filmRouter.get('/:id', FilmController.getById);

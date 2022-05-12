@@ -3,9 +3,9 @@ import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { getToken, makeTokenizedRequest, getEmail, userAuthrorized } from '../../utils/Common';
-import Rating from '@mui/material/Rating';
 import Card from 'react-bootstrap/Card'
 import "./ActorPage.css";
+import './../../App.css';
 
 class ActorPage extends Component {
 
@@ -31,17 +31,16 @@ class ActorPage extends Component {
 
     async componentDidMount() {
         const actor = await (await makeTokenizedRequest(`/api/actor/${this.props.match.params.id}`)).data;
+
         if (actor) {
-            const filmCasts = await (await makeTokenizedRequest(`/api/filmCast?actorId=${actor.id}`)).data;
+            const filmCasts = await (await makeTokenizedRequest(`/api/filmCast/actor/${actor.id}`)).data;
 
             for (let i = 0; i < filmCasts.length; i++) {
                 filmCasts[i].film = await (await makeTokenizedRequest(`/api/film/${filmCasts[i].filmId}`)).data;
             }
 
             this.setState({ filmCasts });
-        }
-
-        const currentUser = await (await makeTokenizedRequest(`/api/user?email=${getEmail()}`)).data;
+        }    
 
         this.setState({ actor });
     }
@@ -60,7 +59,7 @@ class ActorPage extends Component {
 
         if (filmCasts) {
             actorFilmsList = filmCasts.map(filmCast => {
-                let path = "/film/" + filmCast.film.title;
+                let path = "/film/" + filmCast.film.id;
 
                 return <Card border="secondary" className='mt-3' style={{ width: '25rem' }}>
                     <Card.Header>
@@ -74,24 +73,22 @@ class ActorPage extends Component {
                         <Card.Text>
                             Role name: {filmCast.roleName}
                         </Card.Text>
-                        <Card.Text>
-                            Role type: {filmCast.roleType}
-                        </Card.Text>
                     </Card.Body>
                 </Card>;
             })
         };
 
         return (
-            <div>
+            <div style={{ backgroundImage: "url(/background.jpg)" }} className="background">
                 <AppNavbar />
                 <Container>
                     {actor.name ?
-                        <div>
-                            <div>
+                        <div className='info-block'>
+                            <div >
                                 <h1>{actor.name} {actor.surname}</h1>
                                 <p className='p-model'> <strong>Country:</strong> {actor.country}</p>
-                                <p className='p-model'> <strong>Birthday:</strong> {actor.bday ? actor.bday.substring(0, 10) : null} ({this.calculate_age(actor.bday)} years)</p>
+                                <p className='p-model'> <strong>Birthday:</strong> {actor.birthday ? actor.birthday.substring(0, 10) : null} ({this.calculate_age(actor.birthday)} years)</p>
+                                <p className='p-model'> <strong>Film participated:</strong> {actorFilmsList ? actorFilmsList.length : 0}</p>
                             </div>
 
 

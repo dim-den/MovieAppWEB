@@ -38,6 +38,18 @@ class ActorController {
     }
   }
 
+  async getBySurname(req: Request, res: Response, next: any) {
+    const surname : string = req.query.surname?.toString() || '';
+    const actorService = new ActorService();
+    try {
+      const info = await actorService.getActorsBySurnameContainingTop5(surname);
+      
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async getAll(req: Request, res: Response, next: any) {
     const actorService = new ActorService();
     try {

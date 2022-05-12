@@ -4,6 +4,7 @@ import { UserRepository } from '../repositories/userRepository';
 import { AppError, HttpError } from '../util/errors';
 import { httpErrorStatusCodes } from '../constants/httpErrorStatusCode';
 import { UserRole } from '../constants/userRole';
+import bcrypt from 'bcryptjs';
 
 export class UserService {
 
@@ -12,9 +13,12 @@ export class UserService {
     this.userRepository = getCustomRepository(UserRepository);
   }
 
-  async getUser(userId: number) {
+  async getUser(token: string, userId: number) {
+    const userByToken = await this.userRepository.findByToken(token);
     const info = await this.userRepository.findById(userId);
-    if (info) return info;
+
+    if(userByToken?.role != UserRole.ADMIN && userByToken!.id != userId) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Not enough rights');
+    else if (info) return info;
     else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'User profile not found');
   }
 
@@ -40,6 +44,25 @@ export class UserService {
     if (!user) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Cant find user by provided token');
     await this.userRepository.updateBirthday(user.id, newBD);
   }
+
+  async updateUser(userId: number, user: User) {
+    const existingUser= await this.userRepository.findOne({ id: userId });
+    if (!existingUser) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'User not found');
+    else {
+        try {
+            user.id = userId;
+            user.name = user.name || existingUser.name;
+            user.email = user.email || existingUser.email;
+            if(user.password !== existingUser.password) user.password = await bcrypt.hash(user.password , 10);
+            user.role = user.role || existingUser.role;
+            user.birthday = user.birthday || existingUser.birthday;
+            user.token = user.token || existingUser.token;
+            await this.userRepository.save(user);
+        } catch (err) {
+            throw new AppError('Failed to update user');
+        }
+    }
+  } 
 
   async deleteUser(userId: number) {
     const user = await this.userRepository.findById(userId);

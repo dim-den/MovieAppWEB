@@ -24,7 +24,7 @@ class AuthController {
       await authService.registerUser(req.body.name, req.body.email, req.body.password);
 
       const result = await authService.loginUser(req.body.email, req.body.password);
-
+      
       res.cookie('token', result.token  , {
         httpOnly: true,
         sameSite: 'strict'

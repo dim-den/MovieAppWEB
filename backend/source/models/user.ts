@@ -26,7 +26,7 @@ export class User extends BaseEntity{
   token!: string;
 
   @OneToMany(type => FilmReview, filmReview => filmReview.user) 
-    filmReviews!: FilmReview[];  
+  filmReviews!: FilmReview[];  
     
   public constructor(name: string, email: string) {
     super();

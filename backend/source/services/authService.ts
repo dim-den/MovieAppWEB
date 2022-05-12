@@ -89,7 +89,7 @@ export class AuthService {
           {expiresIn: 24 * 60 * 60}
         );
         await this.saveLoginToken(candidate.id, token);
-        return {token: token, email: candidate.email, role: candidate.role};
+        return {token: token, id: candidate.id, email: candidate.email, role: candidate.role};
       } else throw new HttpError(httpErrorStatusCodes.UNAUTHORIZED, 'Wrong email or password');
     } else throw new HttpError(httpErrorStatusCodes.UNAUTHORIZED, "Wrong email or password");
   }

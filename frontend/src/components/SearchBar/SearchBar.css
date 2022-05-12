@@ -10,7 +10,7 @@
   }
   
   .search input {
-    background-color: white;
+    background-color: #fafafa;
     border: 3px solid black;
     border-radius: 12px;
     border-top-right-radius: 0px;
@@ -47,6 +47,11 @@
     box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 5px;
     overflow: hidden;
     overflow-y: auto;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 3px;
+    margin-left: 5px;
+    
   }
   
   .dataResult::-webkit-scrollbar {

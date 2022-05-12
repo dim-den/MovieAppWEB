@@ -29,7 +29,7 @@ class UserList extends Component {
         await makeTokenizedRequest(`api/user/${id}`, 'DELETE')
             .then(() => {
                 let updatedUsers = [...this.state.users].filter(i => i.id !== id);
-                this.setState({ user: updatedUsers });
+                this.setState({ users: updatedUsers });
             })
             .catch(error => {
                 if (error.response.status === 500) this.setState({ error: "Can't delete this row (constraint)" });

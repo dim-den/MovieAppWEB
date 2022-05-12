@@ -43,7 +43,7 @@ class Login extends Component {
 
         axios.post('/api/auth/login', item)
         .then(response => {
-            setUserSession(response.data.token, response.data.email, response.data.role );
+            setUserSession(response.data.token, response.data.id, response.data.role );
             this.props.history.push('/');
         }).catch(error => {
             if (error.response.status === 401) this.setState({ error: error.response.data.message, loading: false}); 

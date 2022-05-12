@@ -1,3 +1,31 @@
 .p-model {
-    font-size: 20px;
+    font-size: 22px;
+}
+
+.a-actor-link {
+    color: #282c34 !important;
+}
+
+.info-block {
+    margin-top: 130px;
+    margin-bottom: 200px;
+    margin-left: -50px;
+    width: 700px;
+    padding: 5px 15px; 
+    background-color: #fafafa;
+    opacity: 0.9;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 5px;
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 15px;
+}
+
+.cards {
+    display: flex;
+}
+
+.card {
+    width: 40rem;
+    margin-top: 10px;
+    margin-right: 30px;
 }

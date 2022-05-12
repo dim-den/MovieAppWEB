@@ -18,7 +18,10 @@ export class FilmReviewService {
       let user = await this.userRepository.findByToken(token);
       const existingFilmReview = await this.filmReviewRepository.findOne({filmId: filmReview.filmId, userId: user?.id});
 
-      if(!existingFilmReview) return await this.filmReviewRepository.save(filmReview);
+      if(!existingFilmReview)  {
+        filmReview.userId = user!.id;
+        return await this.filmReviewRepository.save(filmReview);
+      }
       else {
         filmReview.review = filmReview.review || existingFilmReview.review;
         filmReview.id = existingFilmReview.id;
@@ -59,7 +62,8 @@ export class FilmReviewService {
     }
 
     async getFilmReviewsByFilmId(filmId: number) {
-      const filmReview = await this.filmReviewRepository.find({filmId});
+      //const filmReview = await this.filmReviewRepository.find({filmId});
+      const filmReview = await this.filmReviewRepository.getFilmReviewsByFilmId(filmId);
       if (filmReview) return filmReview;
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film reviews not found');
     }  
@@ -69,6 +73,12 @@ export class FilmReviewService {
       if (filmReview) return filmReview;
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film reviews not found');
     }  
+
+    async getFilmReviewsByUserIdAndFilmId(userId: number, filmId: number) {
+      const filmReview = await this.filmReviewRepository.findOne({userId, filmId});
+      if (filmReview) return filmReview;
+      else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film review not found');
+    } 
 
     async deleteFilmReview(filmReviewId: number) {
         const filmReview = await this.filmReviewRepository.findOne({id: filmReviewId});
@@ -84,5 +94,9 @@ export class FilmReviewService {
 
     async getFilmAvgScore(FilmId: number) {
         return await this.filmReviewRepository.getFilmAvgScore(FilmId);
+    } 
+
+      async getUserFilmAvgScore(FilmId: number) {
+        return await this.filmReviewRepository.getUserFilmAvgScore(FilmId);
     } 
 }

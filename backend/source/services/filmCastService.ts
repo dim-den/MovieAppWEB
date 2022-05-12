@@ -26,7 +26,7 @@ export class FilmCastService {
     }
 
     async getFilmCastsByFilmId(filmId: number) {
-      const filmCast = await this.filmCastRepository.find({filmId});
+      const filmCast = await this.filmCastRepository.getFilmCastsByFilmId(filmId);
       if (filmCast) return filmCast;
       else throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Film casts not found');
     }  

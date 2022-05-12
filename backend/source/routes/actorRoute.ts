@@ -7,6 +7,7 @@ import { newActorRules, updateActorRules, validate } from '../middleware/validat
 
 export const actorRouter = express.Router();
 
+actorRouter.get('/', ActorController.getBySurname);
 actorRouter.post('/save', [authenticateJWT, checkRole(UserRole.ADMIN)], newActorRules(), validate, ActorController.saveActor);
 actorRouter.get('/all', ActorController.getAll);
 actorRouter.get('/:id', ActorController.getById);

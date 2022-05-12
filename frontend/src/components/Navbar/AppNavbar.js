@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Navbar, NavbarBrand } from 'reactstrap';
 import { Link, withRouter } from 'react-router-dom';
-import { removeUserSession, userAuthrorized, haveAccess } from './../../utils/Common';
+import { removeUserSession, userAuthrorized, haveAccess, getUserId } from './../../utils/Common';
 
 class AppNavbar extends Component {
     constructor(props) {
@@ -23,10 +23,9 @@ class AppNavbar extends Component {
             <div class="collapse navbar-collapse" id="navbarMobileToggle">
                 <NavbarBrand tag={Link} to="/">Home</NavbarBrand>
 
-                {haveAccess("ADMIN") ? <NavbarBrand tag={Link} to="/users">Users</NavbarBrand> : null}
-
-                {isAuthorized ?
+                {haveAccess("admin") ?
                     <div>
+                        <NavbarBrand tag={Link} to="/users">Users</NavbarBrand>
                         <NavbarBrand tag={Link} to="/films">Films</NavbarBrand>
                         <NavbarBrand tag={Link} to="/actors">Actors</NavbarBrand>
                         <NavbarBrand tag={Link} to="/filmReviews">Film reviews</NavbarBrand>
@@ -34,6 +33,8 @@ class AppNavbar extends Component {
                     </div>
                     : null
                 }
+
+            {isAuthorized ? <NavbarBrand tag={Link} to={"/profile"}>Profile</NavbarBrand> : null }
 
 
             </div>

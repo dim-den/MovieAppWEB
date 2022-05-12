@@ -1,10 +1,5 @@
 import axios from 'axios';
 
-export const getEmail = () => {
-    const userStr = sessionStorage.getItem('email');
-    if (userStr) return JSON.parse(userStr);
-    else return null;
-}
 
 // return the token from the session storage
 export const getToken = () => {
@@ -13,21 +8,27 @@ export const getToken = () => {
 
 export const getRole = () => {
     const roleStr = sessionStorage.getItem('role');
-    if (roleStr) return JSON.parse(roleStr);
+    if (roleStr && roleStr !== 'undefined') {
+        return JSON.parse(roleStr);
+    }
     else return null;
+}
+
+export const getUserId = () => {
+    return sessionStorage.getItem('userId') || null;
 }
 
 // remove the token and user from the session storage
 export const removeUserSession = () => {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('userId');
     sessionStorage.removeItem('role');
 }
 
 // set the token and user from the session storage
-export const setUserSession = (token, email, role) => {
+export const setUserSession = (token, id, role) => {
     sessionStorage.setItem('token', token);
-    sessionStorage.setItem('email', JSON.stringify(email));
+    sessionStorage.setItem('userId', id);
     sessionStorage.setItem('role', JSON.stringify(role));
 }
 

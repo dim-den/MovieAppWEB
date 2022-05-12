@@ -4,7 +4,6 @@ import { getToken, haveAccess } from './Common';
  
 // handle the private routes
 function PrivateRoute({ component: Component, ...rest }) {
-    console.log(rest);
   return (
     <Route
       {...rest}

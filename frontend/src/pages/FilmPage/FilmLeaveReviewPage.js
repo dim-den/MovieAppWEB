@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label, TextInput } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
-import { getEmail, makeTokenizedRequest } from './../../utils/Common';
+import { getEmail, getUserId, makeTokenizedRequest } from './../../utils/Common';
 import { FormErrors } from "./../../components/Form/FormErrors"
 
 class FilmLeaveReviewPage extends Component {
@@ -20,8 +20,6 @@ class FilmLeaveReviewPage extends Component {
     emptyFilmReview = {
         review: '',
         score: 0,
-        published: '',
-        userId: 0,
         filmId: 0
     };
 
@@ -30,7 +28,6 @@ class FilmLeaveReviewPage extends Component {
         this.state = {
             film: this.emptyFilm,
             filmReview: this.emptyFilmReview,
-            currentUser: null,
             formErrors: { score: '', review: '' },
             error: null,
             loading: false,
@@ -44,11 +41,9 @@ class FilmLeaveReviewPage extends Component {
 
     async componentDidMount() {
         const film = await (await makeTokenizedRequest(`/api/film/${this.props.match.params.id}`)).data;
-        const currentUser = await (await makeTokenizedRequest(`/api/user?email=${getEmail()}`)).data;
         this.state.filmReview.filmId = film.id;
-        this.state.filmReview.userId = currentUser.id;
 
-        this.setState({ film, currentUser });
+        this.setState({ film });
     }
 
     handleChange(event) {
@@ -94,14 +89,15 @@ class FilmLeaveReviewPage extends Component {
         const { film, filmReview } = this.state;
 
         this.setState({ error: null, loading: true })
-        filmReview.published = new Date();
 
-        await makeTokenizedRequest('/api/filmReview/leaveReview', 'POST', JSON.stringify(filmReview))
+        console.log(filmReview);
+
+        await makeTokenizedRequest('/api/filmReview/leaveReview', 'POST', filmReview)
             .then(response => {
-                this.props.history.push('/film/' + film.title)
+                this.props.history.push('/film/' + film.id)
             })
             .catch(error => {
-                if (error.response.status === 400) this.setState({ error: error.response.data.errors[0], loading: false });
+                if (error.response.status === 400) this.setState({ error: error.response.data.message, loading: false });
                 else this.setState({ error: "Wrong value", loading: false });
             });
     }
@@ -126,14 +122,14 @@ class FilmLeaveReviewPage extends Component {
                                 <Input type="number" name="score" id="score" value={filmReview.score || ''}
                                     onChange={this.handleChange} autoComplete="score" />
                             </FormGroup>
-                            <FormGroup>
+                            <FormGroup >
                                 <Label for="review">Review</Label>
                                 <Input type="text" name="review" id="review" value={filmReview.review || ''}
                                     onChange={this.handleChange} autoComplete="review" />
                             </FormGroup>
                             <FormGroup className='mt-1'>
                                 <Button color="primary" type="submit" disabled={this.state.loading || !this.state.formValid}>Submit</Button>{' '}
-                                <Button color="secondary" tag={Link} to={"/film/" + film.title}>Cancel</Button>
+                                <Button color="secondary" tag={Link} to={"/film/" + film.id}>Cancel</Button>
                             </FormGroup>
                         </Form>
                     </div>

@@ -25,6 +25,10 @@ export class ActorService {
         return await this.actorRepository.find();
     }
 
+    async getActorsBySurnameContainingTop5(surname: string) {
+        return await this.actorRepository.findBySurnameContainingTop5(surname);
+      }
+
     async updateActor(actorId: number, actor: Actor) {
         const existingActor = await this.actorRepository.findOne({ id: actorId });
         if (!existingActor) throw new HttpError(httpErrorStatusCodes.NOT_FOUND, 'Actor not found');

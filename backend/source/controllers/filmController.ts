@@ -48,6 +48,18 @@ class FilmController {
     }
   }
 
+  async getByTitle(req: Request, res: Response, next: any) {
+    const title : string = req.query.title?.toString() || '';
+    const filmService = new FilmService();
+    try {
+      const info = await filmService.getFilmsByTitleContainingTop5(title);
+      
+      res.status(200).json(info);
+    } catch (err: any) {
+      next(new AppError(err.message));
+    }
+  }
+
   async saveFilm(req: Request, res: Response, next: any) {
     const filmService = new FilmService();
     try {

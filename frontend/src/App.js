@@ -18,6 +18,7 @@ import FilmCastEdit from "./pages/FilmCastPage/FilmCastEdit";
 import Login from "./pages/LoginPage/Login";
 import Register from "./pages/RegisterPage/Register";
 import PrivateRoute from './utils/PrivateRoute';
+import UserPage from './pages/UserPage/UserPage';
 
 class App extends Component {
   componentDidMount(){
@@ -33,12 +34,13 @@ class App extends Component {
             <PrivateRoute hasRole="user" path='/films' exact={true} component={FilmList}/>
             <PrivateRoute hasRole="admin" path='/films/:id' component={FilmEdit}/>
             <PrivateRoute hasRole="user" path='/film/review/:id' component={FilmLeaveReviewPage}/>
-            <PrivateRoute hasRole="user" path='/film/:title' component={FilmPage}/>
+            <Route path='/film/:id' component={FilmPage}/>
             <PrivateRoute hasRole="user" path='/actors' exact={true} component={ActorList}/>
             <PrivateRoute hasRole="admin" path='/actors/:id' component={ActorEdit}/>
             <PrivateRoute hasRole="user" path='/actor/:id' component={ActorPage}/>
             <PrivateRoute hasRole="admin" path='/users' exact={true} component={UserList}/>
             <PrivateRoute hasRole="admin" path='/users/:id' component={UserEdit}/>
+            <PrivateRoute hasRole="user" path='/profile' component={UserPage}/>
             <PrivateRoute hasRole="user" path='/filmReviews' exact={true} component={FilmReviewList}/>
             <PrivateRoute hasRole="admin" path='/filmReviews/:id' component={FilmReviewEdit}/>
             <PrivateRoute hasRole="user" path='/filmCasts' exact={true} component={FilmCastList}/>

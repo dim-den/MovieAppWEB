@@ -95,11 +95,13 @@ class Register extends Component {
 
         axios.post('/api/auth/register', item)
             .then(response => {
-                setUserSession(response.data.token, response.data.email, response.data.role);
+                console.log(response.data);
+                setUserSession(response.data.token, response.data.id, response.data.role);
                 this.props.history.push('/');
             }).catch(error => {
                 if (error.response.status === 400) this.setState({ error: error.response.data.message, loading: false });
                 else if (error.response.status === 401) this.setState({ error: error.response.data.message, loading: false });
+                else if (error.response.status === 409) this.setState({ error: error.response.data.message, loading: false });
                 else this.setState({ error: "Something went wrong. Please try again later.", loading: false });
             });
     }

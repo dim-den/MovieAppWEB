@@ -8,9 +8,11 @@ class UserEdit extends Component {
 
     emptyItem = {
         email: '',
-        username: '',
-        passwordHash: '',
-        role: ''
+        name: '',
+        password: '',
+        role: '',
+        token: '',
+        birthday: null
     };
 
     constructor(props) {
@@ -45,10 +47,10 @@ class UserEdit extends Component {
 
         await makeTokenizedRequest('/api/user' + (item.id ? '/update/' + item.id : '/save'),
             (item.id) ? 'PUT' : 'POST',
-            JSON.stringify(item))
+            item)
             .then(response => this.props.history.push('/users'))
             .catch(error => {
-                if (error.response.status === 400) this.setState({ error: error.response.data.errors[0], loading: false });
+                if (error.response.status === 400) this.setState({ error: error.response.data.message, loading: false });
                 else this.setState({ error: "Wrong value", loading: false });
             });
 
@@ -72,21 +74,30 @@ class UserEdit extends Component {
                             onChange={this.handleChange} autoComplete="email" />
                     </FormGroup>
                     <FormGroup>
-                        <Label for="username">Username</Label>
-                        <Input type="text" name="username" id="username" value={item.username || ''}
-                            onChange={this.handleChange} autoComplete="username" />
+                        <Label for="name">Name</Label>
+                        <Input type="text" name="name" id="name" value={item.name || ''}
+                            onChange={this.handleChange} autoComplete="name" />
                     </FormGroup>
                     <FormGroup>
                         <Label for="text">Password</Label>
-                        <Input type="text" name="passwordHash" id="passwordHash" value={item.passwordHash || ''}
-                            onChange={this.handleChange} autoComplete="passwordHash" />
+                        <Input type="text" name="password" id="password" value={item.password || ''}
+                            onChange={this.handleChange} autoComplete="password" />
                     </FormGroup>
                     <FormGroup>
                         <Label for="role">Role</Label>
                         <Input type="text" name="role" id="role" value={item.role || ''}
                             onChange={this.handleChange} autoComplete="role" />
                     </FormGroup>
-                    
+                    <FormGroup>
+                        <Label for="token">Token</Label>
+                        <Input type="text" name="token" id="token" value={item.token || ''}
+                            onChange={this.handleChange} autoComplete="token" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="birthday">Birthday</Label>
+                        <Input type="date" name="birthday" id="birthday" value={item.birthday || ''}
+                            onChange={this.handleChange} autoComplete="birthday" />
+                    </FormGroup>
                     <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
                         <Button color="secondary" tag={Link} to="/users">Cancel</Button>

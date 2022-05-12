@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { User } from '../models/user';
 import { AuthService } from '../services/authService';
 import { UserService } from '../services/userService';
 import { AppError } from '../util/errors';
@@ -9,6 +10,7 @@ class UserController {
     const userService = new UserService();
     try {
       await userService.deleteUser(id);
+      res.status(201).json({ message: 'User succefully deleted' });
     } catch (err) {
       next(err);
     }
@@ -35,12 +37,24 @@ class UserController {
     }
   }
 
+  async updateUser(req: Request, res: Response, next: any) {
+    const userId: number = parseInt(req.params.id);
+    const userService = new UserService();
+    try {
+      const user = req.body as User;
+      await userService.updateUser( userId, user);
+      res.status(201).json({ message: 'User succefully updated' });
+    } catch (err) {
+      next(err);
+    }
+  }
 
   async getById(req: Request, res: Response, next: any) {
     const id: number = parseInt(req.params.id);
+    const token = req.headers.authorization!.split(' ')[1];
     const userService = new UserService();
     try {
-      const info = await userService.getUser(id);
+      const info = await userService.getUser(token, id);
       res.status(200).json(info);
     } catch (err: any) {
       next(new AppError(err.message));
