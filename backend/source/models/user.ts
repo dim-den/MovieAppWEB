@@ -23,6 +23,9 @@ export class User extends BaseEntity{
   password!: string;
 
   @Column({ nullable: true, type: 'varchar' })
+  imageUrl!: string;
+
+  @Column({ nullable: true, type: 'varchar' })
   token!: string;
 
   @OneToMany(type => FilmReview, filmReview => filmReview.user) 

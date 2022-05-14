@@ -3,14 +3,13 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { Link } from 'react-router-dom';
 import { haveAccess, getToken, makeTokenizedRequest } from './../../utils/Common';
-
-const pageSize = 10;
+import  {Image } from 'react-native'
 
 class FilmList extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { films: []};
+        this.state = { films: [] };
         this.remove = this.remove.bind(this);
     }
 
@@ -29,12 +28,12 @@ class FilmList extends Component {
             .then(() => {
                 let updatedfilms = [...this.state.films].filter(i => i.id !== id);
                 this.setState({ films: updatedfilms });
-            }) 
+            })
             .catch(error => {
-                if (error.response.status === 500) this.setState({ error: "Can't delete this row (constraint)"});
+                if (error.response.status === 500) this.setState({ error: "Can't delete this row (constraint)" });
                 else this.setState({ error: error.message });
             });
-    }   
+    }
 
     render() {
         const { films, isLoading, error } = this.state;
@@ -49,6 +48,12 @@ class FilmList extends Component {
                 <td style={{ whiteSpace: 'nowrap' }}>{film.title}</td>
                 <td>{film.description}</td>
                 <td>{film.genre}</td>
+                <td> <Image
+                    source={{
+                        uri: film.posterUrl
+                    }}
+                    style={{ width: 160, height: 90}}
+                /></td>
                 <td>{film.director}</td>
                 <td>{film.country}</td>
                 <td>{film.release.substring(0, 10)}</td>
@@ -86,6 +91,7 @@ class FilmList extends Component {
                                 <th width="10%">Title</th>
                                 <th width="25%">Description</th>
                                 <th width="10%">Genre</th>
+                                <th width="10%">Poster</th>
                                 <th width="10%">Director</th>
                                 <th width="10%">Country</th>
                                 <th width="10%">Release date</th>

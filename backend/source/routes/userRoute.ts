@@ -9,6 +9,7 @@ export const userRouter = express.Router();
 
 userRouter.get('/all', [authenticateJWT, checkRole(UserRole.ADMIN)], UserController.getAll);
 userRouter.post('/token', UserController.getByToken);
+userRouter.post('/upload', authenticateJWT, UserController.uploadImage);
 userRouter.get('/:id', authenticateJWT, UserController.getById);
 userRouter.put('/changePassword', authenticateJWT, newPasswordRules(), validate, UserController.changePassword);
 userRouter.put('/changeName', authenticateJWT, newNameRules(), validate, UserController.changeName);

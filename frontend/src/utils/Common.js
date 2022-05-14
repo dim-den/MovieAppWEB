@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 // return the token from the session storage
 export const getToken = () => {
     return sessionStorage.getItem('token') || null;
@@ -40,14 +39,14 @@ export const userAuthrorized = () => {
 export const haveAccess = required_role => {
     let user_role = getRole();
 
-    if(user_role === null) return false;
-    else if(user_role === required_role) return true;
-    else if(user_role === "admin") return true;
+    if (user_role === null) return false;
+    else if (user_role === required_role) return true;
+    else if (user_role === "admin") return true;
     else return false;
 }
 
 export const makeTokenizedRequest = (path, method = 'GET', body = null) => {
-    return body ? 
+    return body ?
         axios(path, {
             method: method,
             headers: {
@@ -55,12 +54,25 @@ export const makeTokenizedRequest = (path, method = 'GET', body = null) => {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + getToken()
             },
-            data: body}) :
+            data: body
+        }) :
         axios(path, {
             method: method,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + getToken()
-            }});
+            }
+        });
+}
+
+export const makeTokenizedFormDataRequest = (path, formData) => {
+    return axios(path, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'form-data',
+            'Authorization': 'Bearer ' + getToken()
+        },
+        data: formData
+    });
 }

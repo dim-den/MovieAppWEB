@@ -8,10 +8,6 @@ import { FilmCast } from '../models/filmCast';
 import { Actor } from '../models/actor';
 dotenv.config();
 
-export const app_config = {
-  port: process.env.PORT || process.env.APP_PORT,
-};
-
 export const DbConfig: ConnectionOptions = {
   type: 'mssql',
   host: process.env.DB_HOST,

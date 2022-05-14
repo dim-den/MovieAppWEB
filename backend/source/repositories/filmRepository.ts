@@ -11,4 +11,15 @@ export class FilmRepository extends Repository<Film> {
     take: 5
   });
   }
+
+  async updateFilmPoster(filmId: number, posterUrl: string) {
+    return this.manager
+    .createQueryBuilder()
+    .update(Film)
+    .set({
+        posterUrl: posterUrl
+    })
+    .where("id = :id", { id: filmId })
+    .execute()
+  }
 }

@@ -24,6 +24,9 @@ export class Film extends BaseEntity {
   @Column('datetime')
   release!: Date;
 
+  @Column({ nullable: true, type: 'varchar' })
+  posterUrl!: string;
+
   @Column('int')
   budget!: number;
 

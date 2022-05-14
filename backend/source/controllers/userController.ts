@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import { User } from '../models/user';
 import { AuthService } from '../services/authService';
+import { CloudinaryService } from '../services/cloudinaryService';
 import { UserService } from '../services/userService';
 import { AppError } from '../util/errors';
+const formidable = require('formidable');
+
 
 class UserController {
   async deleteById(req: Request, res: Response, next: any) {
@@ -42,7 +45,7 @@ class UserController {
     const userService = new UserService();
     try {
       const user = req.body as User;
-      await userService.updateUser( userId, user);
+      await userService.updateUser(userId, user);
       res.status(201).json({ message: 'User succefully updated' });
     } catch (err) {
       next(err);
@@ -59,6 +62,29 @@ class UserController {
     } catch (err: any) {
       next(new AppError(err.message));
     }
+  }
+
+  async uploadImage(req: Request, res: Response, next: any) {
+    const token = req.headers.authorization!.split(' ')[1];
+    const form = new formidable.Formidable();
+    const cloudinaryService = new CloudinaryService();
+    const userService = new UserService();
+    form.parse(req, async (err: any, fields: any, files: any) => {
+      try {
+        const user = await userService.getUserByToken(token);
+
+        let path = files.file.filepath;
+        let result: any = await cloudinaryService.UploadImage(path, 'avatars');
+
+        if (result) {
+          user.imageUrl = result.url;
+          userService.updateUser(user.id, user)
+        }
+        res.status(200).json({ message: 'Succesfully set user avatar' });
+      } catch (err: any) {
+        next(new AppError(err.message));
+      }
+    });
   }
 
   async changePassword(req: Request, res: Response, next: any) {

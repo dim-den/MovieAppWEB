@@ -25,6 +25,10 @@ export class FilmService {
     return await this.filmRepository.find();
   }
 
+  async updateFilmPoster(filmId: number, posterUrl: string) {
+    return await this.filmRepository.updateFilmPoster(filmId, posterUrl);
+  }
+
   async getFilmsByTitleContainingTop5(title: string) {
     return await this.filmRepository.findByTitleContainingTop5(title);
   }
@@ -40,6 +44,7 @@ export class FilmService {
             film.director = film.director || existingFilm.director;
             film.country = film.country || existingFilm.country;
             film.genre = film.genre || existingFilm.genre;
+            film.posterUrl = existingFilm.posterUrl;
             film.release = film.release || existingFilm.release;
             film.budget = film.budget || existingFilm.budget;
             film.fees = film.fees || existingFilm.fees;

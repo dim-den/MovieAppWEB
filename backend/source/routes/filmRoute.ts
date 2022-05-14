@@ -9,6 +9,8 @@ export const filmRouter = express.Router();
 
 filmRouter.get('/', FilmController.getByTitle);
 filmRouter.post('/save', [authenticateJWT, checkRole(UserRole.ADMIN)],  newFilmRules(), validate, FilmController.saveFilm);
+filmRouter.post('/uploadPoster', [authenticateJWT, checkRole(UserRole.ADMIN)], FilmController.uploadPoster);
+filmRouter.post('/uploadPoster/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], FilmController.uploadPosterForFilm);
 filmRouter.get('/all', FilmController.getAll);
 filmRouter.get('/:id', FilmController.getById);
 filmRouter.delete('/:id', [authenticateJWT, checkRole(UserRole.ADMIN)], FilmController.deleteById);

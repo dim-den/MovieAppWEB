@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { Link } from 'react-router-dom';
+import  {Image } from 'react-native'
 import { haveAccess, makeTokenizedRequest } from '../../utils/Common';
-import Pagination from '../../components/Pagination/Pagination';
-
-const pageSize = 10;
 
 class UserList extends Component {
 
@@ -49,6 +47,12 @@ class UserList extends Component {
                 <td>{user.id}</td>
                 <td style={{ whiteSpace: 'nowrap' }}>{user.email}</td>
                 <td>{user.name}</td>
+                <td> <Image
+                 source={{
+                    uri: user.imageUrl ? user.imageUrl : "/default-user-image.jpg"
+                  }} 
+                    style={{ width: 64, height: 64, borderRadius: 128 / 2 }}
+                /></td>
                 <td>{user.password}</td>
                 <td>{user.role}</td>
                 <td>{user.birthday}</td>
@@ -81,6 +85,7 @@ class UserList extends Component {
                                     <th width="5%">ID</th>
                                     <th width="15%">Email</th>
                                     <th width="10%">Name</th>
+                                    <th width="10%">Avatar</th>
                                     <th width="25%">Password</th>
                                     <th width="5%">Role</th>
                                     <th width="10%">Birthday</th>

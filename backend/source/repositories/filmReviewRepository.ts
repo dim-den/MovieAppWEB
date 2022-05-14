@@ -38,7 +38,7 @@ export class FilmReviewRepository extends Repository<FilmReview> {
     .leftJoinAndSelect("filmReview.user", "user")
     .where("filmReview.filmId = :filmId", {filmId: filmId})
     .select(["filmReview.id AS id", "filmReview.review AS review", "filmReview.score as score", "filmReview.published as published",
-            "filmReview.userId as userId", "filmReview.filmId as filmId", "name AS username", "email"])
+            "filmReview.userId as userId", "filmReview.filmId as filmId", "name AS username", "email", "imageUrl"])
     .execute();
   }
 }

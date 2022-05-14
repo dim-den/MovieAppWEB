@@ -55,6 +55,7 @@ export class UserService {
             user.email = user.email || existingUser.email;
             if(user.password !== existingUser.password) user.password = await bcrypt.hash(user.password , 10);
             user.role = user.role || existingUser.role;
+            user.imageUrl = user.imageUrl || existingUser.imageUrl;
             user.birthday = user.birthday || existingUser.birthday;
             user.token = user.token || existingUser.token;
             await this.userRepository.save(user);

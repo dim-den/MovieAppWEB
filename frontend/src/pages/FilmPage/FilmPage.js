@@ -4,6 +4,7 @@ import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { makeTokenizedRequest, userAuthrorized, getUserId } from './../../utils/Common';
 import Rating from '@mui/material/Rating';
+import { Image } from 'react-native'
 import Card from 'react-bootstrap/Card'
 import "./FilmPage.css";
 
@@ -14,6 +15,7 @@ class FilmPage extends Component {
         title: '',
         genre: '',
         description: '',
+        posterUrl: null,
         director: '',
         country: '',
         release: null,
@@ -88,20 +90,28 @@ class FilmPage extends Component {
 
 
     render() {
-        const { userReview, film, reviews, casts} = this.state;
+        const { userReview, film, reviews, casts } = this.state;
         const score = userReview.score ? userReview.score : 0;
 
         let reviewsList = null;
         if (reviews) {
             reviewsList = reviews.filter(review => review.review).map(review => {
-                let header = `User name: ${review.username}`;
+                let header = `User name: `;
                 let footer = `User score: ${review.score}`;
 
                 return <Card border="secondary" className='card'>
                     <Card.Header>
                         <div class="d-flex justify-content-between">
-                            <div>
-                                <big className="text-dark">{header}</big >
+
+                            <div class="d-flex justify-content-between">
+                                <Image
+                                    source={{
+                                        uri: review.imageUrl ? review.imageUrl : "/default-user-image.jpg"
+                                    }}
+                                    style={{ width: 48, height: 48, borderRadius: 48 / 2 }}
+                                />
+                                <h3 className='vertical-align-center' >{review.username}</h3 >
+
                             </div>
                             <div>
                                 <big className="text-dark">Published: {review.published.substring(0, 10)}</big >
@@ -117,20 +127,21 @@ class FilmPage extends Component {
                     <Card.Footer>
                         <div className="text-muted">{footer}</div>
                     </Card.Footer>
-                </Card>;
+                </Card >;
             })
         };
 
         let castsList = null;
-        if(casts) {
+        if (casts) {
             castsList = casts.map((cast, i) => {
                 let path = "/actor/" + cast.actorId;
-                return  <span><a className='a-actor-link' href={path}>{cast.name} {cast.surname}</a>{i + 1 == casts.length ? '' : ', '} </span>
+                return <span><a className='a-actor-link' href={path}>{cast.name} {cast.surname}</a>{i + 1 == casts.length ? '' : ', '} </span>
             });
         }
 
+        let posterLink = film.posterUrl ? `url(${film.posterUrl})` : "url(/background.jpg)";
         return (
-            <div style={{ backgroundImage: "url(/blackswan.jpg)" }} className="background">
+            <div style={{ backgroundImage: posterLink }} className="background">
                 <AppNavbar />
                 <Container>
                     {film.title ?
@@ -145,7 +156,7 @@ class FilmPage extends Component {
                                 <p className='p-model'> <strong>Budget:</strong> {film.budget}$</p>
                                 <p className='p-model'> <strong>Fees:</strong> {film.fees}$</p>
                                 <p className='p-model'> <strong>Average score:</strong> {film.avgScore}</p>
-                                <p className='p-model'> <strong>Actors:</strong> {castsList && castsList.length > 0 ? <span> {castsList} </span>: "not found" } </p>
+                                <p className='p-model'> <strong>Actors:</strong> {castsList && castsList.length > 0 ? <span> {castsList} </span> : "not found"} </p>
 
 
                                 {userAuthrorized() ?
