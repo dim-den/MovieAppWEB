@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
-import { getToken, makeTokenizedRequest, getEmail, userAuthrorized } from '../../utils/Common';
+import { makeTokenizedRequest } from '../../utils/Common';
 import Card from 'react-bootstrap/Card'
+import { Image } from 'react-native'
 import "./ActorPage.css";
 import './../../App.css';
 
@@ -40,7 +41,7 @@ class ActorPage extends Component {
             }
 
             this.setState({ filmCasts });
-        }    
+        }
 
         this.setState({ actor });
     }
@@ -86,6 +87,12 @@ class ActorPage extends Component {
                         <div className='info-block'>
                             <div >
                                 <h1>{actor.name} {actor.surname}</h1>
+                                <Image
+                                                source={{
+                                                    uri: actor.imageUrl ? actor.imageUrl : "/default-user-image.jpg"
+                                                }}
+                                                style={{ width: 256, height: 256, borderRadius: 256 / 2, border: '2px solid black' }}
+                                            />
                                 <p className='p-model'> <strong>Country:</strong> {actor.country}</p>
                                 <p className='p-model'> <strong>Birthday:</strong> {actor.birthday ? actor.birthday.substring(0, 10) : null} ({this.calculate_age(actor.birthday)} years)</p>
                                 <p className='p-model'> <strong>Film participated:</strong> {actorFilmsList ? actorFilmsList.length : 0}</p>
@@ -94,19 +101,19 @@ class ActorPage extends Component {
 
                             <h2>Actor films:</h2>
                             {actorFilmsList && actorFilmsList.length > 0 ?
-                                <div>
-                                    {actorFilmsList}
-                                </div>
-                                :
-                                <p>Films not found</p>
-                            }
+                        <div>
+                            {actorFilmsList}
                         </div>
+                        :
+                        <p>Films not found</p>
+                    }
+            </div>
                         : <h2>Actor not found</h2>
 
-                    }
+    }
                 </Container >
 
-            </div>
+            </div >
         );
     }
 

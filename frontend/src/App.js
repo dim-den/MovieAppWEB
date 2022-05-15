@@ -37,7 +37,7 @@ class App extends Component {
             <Route path='/film/:id' component={FilmPage}/>
             <PrivateRoute hasRole="user" path='/actors' exact={true} component={ActorList}/>
             <PrivateRoute hasRole="admin" path='/actors/:id' component={ActorEdit}/>
-            <PrivateRoute hasRole="user" path='/actor/:id' component={ActorPage}/>
+            <Route path='/actor/:id' component={ActorPage}/>
             <PrivateRoute hasRole="admin" path='/users' exact={true} component={UserList}/>
             <PrivateRoute hasRole="admin" path='/users/:id' component={UserEdit}/>
             <PrivateRoute hasRole="user" path='/profile' component={UserPage}/>

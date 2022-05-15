@@ -8,7 +8,7 @@ export class FilmCastRepository extends Repository<FilmCast> {
         .leftJoinAndSelect("filmCast.actor", "actor")
         .where("filmCast.filmId = :filmId", {filmId: filmId})
         .select(["filmCast.id AS id", "filmCast.roleName AS roleName", "filmCast.actorId as actorId", 
-                    "filmCast.filmId as filmId", "name AS name", "surname as surname", "birthday as birthday"])
+                    "filmCast.filmId as filmId", "name AS name", "surname as surname", "birthday as birthday", "imageUrl"])
         .execute();
       }
 }

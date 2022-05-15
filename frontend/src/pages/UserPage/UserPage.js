@@ -117,7 +117,7 @@ class UserPage extends Component {
                                                 source={{
                                                     uri: user.imageUrl ? user.imageUrl : "/default-user-image.jpg"
                                                 }}
-                                                style={{ width: 200, height: 200, borderRadius: 200 / 2 }}
+                                                style={{ width: 200, height: 200, borderRadius: 200 / 2, border: '2px solid black' }}
                                             /></th>
                                     </tr>
                                 </Table>
@@ -131,7 +131,7 @@ class UserPage extends Component {
 
                             <Form onSubmit={this.handleSubmit} method="POST" encType="multipart/form-data" >
                                 <Label for="upload"></Label>
-                                <input type="file" accept=".png, .jpg" ref={this.input} name="upload" id="upload" placeholder='upload-image-file' />
+                                <input type="file" accept=".png, .jpg, .jpeg" ref={this.input} name="upload" id="upload" placeholder='upload-image-file' />
                                 <small id="fileHelpId" class="form-text text-muted">Please select the avatar to be uploaded...</small>
 
                                 <button type="submit" class="btn btn-secondary" value="Upload">Upload</button>

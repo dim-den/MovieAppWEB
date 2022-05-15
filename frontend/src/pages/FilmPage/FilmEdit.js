@@ -65,8 +65,6 @@ class FilmEdit extends Component {
             item.posterUrl = result.url;
         };
 
-
-
         await makeTokenizedRequest('/api/film' + (item.id ? '/update/' + item.id : '/save'),
             (item.id) ? 'PUT' : 'POST',
             JSON.stringify(item))
@@ -75,8 +73,6 @@ class FilmEdit extends Component {
                 if (error.response.status === 400) this.setState({ error: error.response.data.message, loading: false });
                 else this.setState({ error: "Wrong value", loading: false });
             });
-
-
     }
 
     render() {
@@ -123,7 +119,7 @@ class FilmEdit extends Component {
                     <FormGroup>
                         <Label for="upload-image-file">Poster</Label>
                         <br />
-                        <input type="file" accept=".png, .jpg" ref={this.input} name="upload" id="upload" placeholder='upload-image-file' />
+                        <input type="file" accept=".png, .jpg, .jpeg" ref={this.input} name="upload" id="upload" placeholder='upload-image-file' />
                     </FormGroup>
                     <FormGroup>
                         <Label for="budget">Budget</Label>

@@ -27,7 +27,11 @@ export class ActorService {
 
     async getActorsBySurnameContainingTop5(surname: string) {
         return await this.actorRepository.findBySurnameContainingTop5(surname);
-      }
+    }
+
+    async updateActorImage(actorId: number, imageUrl: string) {
+        return await this.actorRepository.updateActorImage(actorId, imageUrl);
+    }
 
     async updateActor(actorId: number, actor: Actor) {
         const existingActor = await this.actorRepository.findOne({ id: actorId });
@@ -38,6 +42,7 @@ export class ActorService {
                 actor.name = actor.name || existingActor.name;
                 actor.surname = actor.surname || existingActor.surname;
                 actor.country = actor.country || existingActor.country;
+                actor.imageUrl = existingActor.imageUrl;
                 actor.birthday = actor.birthday || existingActor.birthday;
                 await this.actorRepository.save(actor);
             } catch (err) {

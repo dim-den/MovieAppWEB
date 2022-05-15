@@ -34,7 +34,7 @@ class AppNavbar extends Component {
                     : null
                 }
 
-            {isAuthorized ? <NavbarBrand tag={Link} to={"/profile"}>Profile</NavbarBrand> : null }
+            {isAuthorized ? <NavbarBrand tag={Link} to={"/profile"}>My profile</NavbarBrand> : null }
 
 
             </div>

@@ -3,7 +3,7 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { Link } from 'react-router-dom';
 import { haveAccess, getToken, makeTokenizedRequest } from './../../utils/Common';
-import Pagination from './../../components/Pagination/Pagination';
+import  {Image } from 'react-native'
 
 class ActorList extends Component {
 
@@ -47,6 +47,12 @@ class ActorList extends Component {
                 <td>{actor.id}</td>
                 <td style={{ whiteSpace: 'nowrap' }}>{actor.name}</td>
                 <td>{actor.surname}</td>
+                <td> <Image
+                 source={{
+                    uri: actor.imageUrl ? actor.imageUrl : "/default-user-image.jpg"
+                  }} 
+                    style={{ width: 64, height: 64, borderRadius: 128 / 2 }}
+                /></td>
                 <td>{actor.country}</td>
                 <td>{actor.birthday.substring(0, 10)}</td>
                 {haveAccess("admin") ?
@@ -80,6 +86,7 @@ class ActorList extends Component {
                                 <th width="5%">ID</th>
                                 <th width="20%">Name</th>
                                 <th width="20%">Surname</th>
+                                <th width="20%">Image</th>
                                 <th width="20%">Country</th>
                                 <th width="15%">Birthday</th>
                             </tr>

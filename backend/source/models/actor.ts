@@ -17,6 +17,9 @@ export class Actor extends BaseEntity {
   @Column('varchar')
   country!: string;
 
+  @Column({ nullable: true, type: 'varchar' })
+  imageUrl!: string;
+
   @OneToMany(type => FilmCast, filmCast => filmCast.actor) 
   filmCasts!: FilmCast[];  
 }

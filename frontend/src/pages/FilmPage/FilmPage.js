@@ -139,6 +139,29 @@ class FilmPage extends Component {
             });
         }
 
+        let actorsList = null;
+        if (casts) {
+            actorsList = casts.map((actor, i) => {
+                let path = "/actor/" + actor.actorId;
+                return <div className='actor-item'>
+                    <a className='a-actor-link' href={path}>
+                        <Image
+                            source={{
+                                uri: actor.imageUrl ? actor.imageUrl : "/default-user-image.jpg"
+                            }}
+                            style={{ marginRight:10, width: 80, height: 80, borderRadius: 80 / 2, border: '1px solid black' }}
+                        />
+                    </a>
+                    <div>                               
+                         {/* <small id="fileHelpId" class="form-text text-muted">Please select the avatar to be uploaded...</small> */}
+
+                        <p><strong>{actor.roleName}</strong></p>
+                        <p  class="form-text text-muted">{actor.name}  {actor.surname}</p>
+                    </div>
+                </div>
+            });
+        };
+
         let posterLink = film.posterUrl ? `url(${film.posterUrl})` : "url(/background.jpg)";
         return (
             <div style={{ backgroundImage: posterLink }} className="background">
@@ -171,6 +194,16 @@ class FilmPage extends Component {
                                     : <p className='p-model mt-2'>Authorize to leave your score for film</p>
                                 }
                             </div>
+
+                            {actorsList && actorsList.length > 0 ?
+                                <div>
+                                    <h2>Film cast:</h2>
+                                    <div className='actors-cast-block'>
+                                        {actorsList}
+                                    </div>
+                                </div>
+                                : null
+                            }
 
                             {reviewsList && reviewsList.length > 0 ?
                                 <div>

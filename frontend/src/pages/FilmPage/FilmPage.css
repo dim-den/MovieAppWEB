@@ -15,7 +15,6 @@
 .info-block {
     margin-top: 130px;
     margin-bottom: 150px;
-    margin-left: -50px;
     width: 700px;
     padding: 5px 15px; 
     background-color: #fafafa;
@@ -24,6 +23,28 @@
     overflow: hidden;
     overflow-y: auto;
     border-radius: 15px;
+}
+
+.actors-cast-block {
+    margin-bottom: 50px;
+    margin-top: 20px;
+    width: fit-content;
+    background-color: #fafafa;
+    opacity: 0.9;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 5px;
+    overflow: hidden;
+    overflow-y: auto;
+    border-radius: 15px;
+    display: flex;
+}
+
+.actor-item {
+    min-width: 15rem;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    font-size: 17px;
+    background-color: #fafafa;
 }
 
 .cards {

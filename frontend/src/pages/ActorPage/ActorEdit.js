@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
-import { getToken, makeTokenizedRequest } from './../../utils/Common';
+import { makeTokenizedFormDataRequest, makeTokenizedRequest } from './../../utils/Common';
 
 class ActorEdit extends Component {
 
@@ -21,11 +21,13 @@ class ActorEdit extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.input = React.createRef();
     }
 
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             const actor = await (await makeTokenizedRequest(`/api/actor/${this.props.match.params.id}`)).data;
+            if (actor.birthday) actor.birthday = actor.birthday.substring(0, 10);
             this.setState({ item: actor });
         }
     }
@@ -42,6 +44,21 @@ class ActorEdit extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         const { item } = this.state;
+        if (item.birthday) item.birthday = item.birthday.substring(0, 10);
+
+        if (item.id && this.input.current.files) {
+            const formData = new FormData();
+            formData.append("file", this.input.current.files[0]);
+
+            await makeTokenizedFormDataRequest('/api/actor/uploadImage/' + item.id, formData);
+        }
+        else if (!item.id && this.input.current.files[0]) {
+            const formData = new FormData();
+            formData.append("file", this.input.current.files[0]);
+
+            let result = await (await makeTokenizedFormDataRequest('/api/actor/uploadImage', formData)).data;
+            item.imageUrl = result.url;
+        };
 
         await makeTokenizedRequest('/api/actor' + (item.id ? '/update/' + item.id : '/save'),
             (item.id) ? 'PUT' : 'POST',
@@ -74,6 +91,11 @@ class ActorEdit extends Component {
                         <Label for="surname">Surname</Label>
                         <Input type="text" name="surname" id="surname" value={item.surname || ''}
                             onChange={this.handleChange} autoComplete="surname" />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="upload-image-file">Image</Label>
+                        <br />
+                        <input type="file" accept=".png, .jpg, .jpeg" ref={this.input} name="upload" id="upload" placeholder='upload-image-file' />
                     </FormGroup>
                     <FormGroup>
                         <Label for="country">Country</Label>
