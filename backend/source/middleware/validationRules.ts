@@ -89,19 +89,19 @@ export function newPasswordRules() {
 
 export function newActorRules() {
   return [
-    body('name', 'name lenght should be between 2 and 128').isAlpha().bail().isLength({min: 2, max: 128}),
-    body('surname', 'surname lenght should be between 2 and 128').isAlpha().bail().isLength({min: 2, max: 128}),
+    body('name', 'name lenght should be between 2 and 128').isString().bail().isLength({min: 2, max: 128}),
+    body('surname', 'surname lenght should be between 2 and 128').isString().bail().isLength({min: 2, max: 128}),
     body('birthday', 'birthday should be date (format: yyyy-mm-dd)').isDate(),
-    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128})
+    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128})
   ];
 }
 
 export function updateActorRules() {
   return [
-    body('name', 'name lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
-    body('surname', 'surname lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
+    body('name', 'name lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
+    body('surname', 'surname lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
     body('birthday', 'birthday should be date (format: yyyy-mm-dd)').isDate().optional({ checkFalsy: true, nullable: true }),
-    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true })
+    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true })
   ];
 }
 
@@ -110,8 +110,8 @@ export function newFilmRules() {
     body('title', 'title lenght should be between 1 and 128').isString().bail().isLength({min: 1, max: 128}),
     body('description', 'description lenght should be between 2 and 256').isString().bail().isLength({min: 2, max: 256}),
     body('genre', 'genre lenght should be between 2 and 128').isString().bail().isLength({min: 2, max: 128}),
-    body('director', 'director lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}),
-    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}),
+    body('director', 'director lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}),
+    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}),
     body('release', 'release should be date (format: yyyy-mm-dd)').isDate(),
     body('budget', 'budget should be positive number').isInt({min: 1}),
     body('fees', 'fees should be positive number').isInt({min: 1})
@@ -123,8 +123,8 @@ export function updateFilmRules() {
     body('title', 'title lenght should be between 1 and 128').isString().bail().isLength({min: 1, max: 128}).optional({ checkFalsy: true, nullable: true }),
     body('description', 'description lenght should be between 2 and 256').isString().bail().isLength({min: 2, max: 256}).optional({ checkFalsy: true, nullable: true }),
     body('genre', 'genre lenght should be between 2 and 128').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
-    body('director', 'director lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
-    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isAlpha().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
+    body('director', 'director lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
+    body('country', 'country lenght should be between 2 and 128 of alphabet symbols').isString().bail().isLength({min: 2, max: 128}).optional({ checkFalsy: true, nullable: true }),
     body('release', 'release should be date (format: yyyy-mm-dd)').isDate().optional({ checkFalsy: true, nullable: true }),
     body('budget', 'budget should be positive number').isInt({min: 1}).optional({ checkFalsy: true, nullable: true }),
     body('fees', 'fees should be positive number').isInt({min: 1}).optional({ checkFalsy: true, nullable: true })

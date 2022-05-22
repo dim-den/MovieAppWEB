@@ -108,7 +108,7 @@ class FilmPage extends Component {
                                     source={{
                                         uri: review.imageUrl ? review.imageUrl : "/default-user-image.jpg"
                                     }}
-                                    style={{ width: 48, height: 48, borderRadius: 48 / 2 }}
+                                    style={{ width: 48, height: 48, borderRadius: 48 / 2, border: '1px solid black'}}
                                 />
                                 <h3 className='vertical-align-center' >{review.username}</h3 >
 
@@ -153,8 +153,6 @@ class FilmPage extends Component {
                         />
                     </a>
                     <div>                               
-                         {/* <small id="fileHelpId" class="form-text text-muted">Please select the avatar to be uploaded...</small> */}
-
                         <p><strong>{actor.roleName}</strong></p>
                         <p  class="form-text text-muted">{actor.name}  {actor.surname}</p>
                     </div>

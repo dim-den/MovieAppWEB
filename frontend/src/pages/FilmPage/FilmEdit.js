@@ -51,7 +51,7 @@ class FilmEdit extends Component {
         const { item } = this.state;
         if (item.release) item.release = item.release.substring(0, 10);
 
-        if (item.id && this.input.current.files) {
+        if (item.id && this.input.current.files[0]) {
             const formData = new FormData();
             formData.append("file", this.input.current.files[0]);
 
