@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Button, Container, Form, FormGroup, Input, Label } from 'reactstrap';
+import { Button, Container, Table } from 'reactstrap';
 import AppNavbar from './../../components/Navbar/AppNavbar';
 import { makeTokenizedRequest, userAuthrorized, getUserId } from './../../utils/Common';
 import Rating from '@mui/material/Rating';
@@ -108,7 +108,7 @@ class FilmPage extends Component {
                                     source={{
                                         uri: review.imageUrl ? review.imageUrl : "/default-user-image.jpg"
                                     }}
-                                    style={{ width: 48, height: 48, borderRadius: 48 / 2, border: '1px solid black'}}
+                                    style={{ width: 48, height: 48, borderRadius: 48 / 2, border: '1px solid black' }}
                                 />
                                 <h3 className='vertical-align-center' >{review.username}</h3 >
 
@@ -149,12 +149,12 @@ class FilmPage extends Component {
                             source={{
                                 uri: actor.imageUrl ? actor.imageUrl : "/default-user-image.jpg"
                             }}
-                            style={{ marginRight:10, width: 80, height: 80, borderRadius: 80 / 2, border: '1px solid black' }}
+                            style={{ marginRight: 10, width: 80, height: 80, borderRadius: 80 / 2, border: '1px solid black' }}
                         />
                     </a>
-                    <div>                               
+                    <div>
                         <p><strong>{actor.roleName}</strong></p>
-                        <p  class="form-text text-muted">{actor.name}  {actor.surname}</p>
+                        <p class="form-text text-muted">{actor.name}  {actor.surname}</p>
                     </div>
                 </div>
             });
@@ -168,7 +168,23 @@ class FilmPage extends Component {
                     {film.title ?
                         <div>
                             <div className='info-block'>
-                                <h1>{film.title}</h1>
+                                <Table className="mt-4">
+                                    <tr>
+                                        <th width="65%">
+                                            <h1>{film.title}</h1>
+                                        </th>
+                                        <th width="35%">
+                                            <div className='cards'>
+                                                <span className='film-score-text'>{film.avgScore}  </span>
+                                                <small className='film-score-10'> /10</small>
+                                                <Image
+                                                    source="/star.ico"
+                                                    style={{ width: 54, height: 54, border: 0 }}
+                                                />
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </Table>
                                 <p className='p-model'> <strong>Description:</strong> {film.description}</p>
                                 <p className='p-model'> <strong>Director:</strong> {film.director}</p>
                                 <p className='p-model'> <strong>Genre:</strong> {film.genre}</p>
@@ -205,7 +221,7 @@ class FilmPage extends Component {
 
                             {reviewsList && reviewsList.length > 0 ?
                                 <div>
-                                    <h2>User reviews:</h2>
+                                    <h2>User reviews ({reviewsList.length}):</h2>
                                     <div className="cards">
                                         {reviewsList}
                                     </div>

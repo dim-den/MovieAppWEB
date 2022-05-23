@@ -47,6 +47,7 @@ class App extends Component {
             <PrivateRoute hasRole="admin" path='/filmCasts/:id' component={FilmCastEdit}/>
             <Route path='/login' component={Login}/>
             <Route path='/register' component={Register}/>
+            <Route path='/*' component={Home} />
           </Switch>
         </Router>
     )

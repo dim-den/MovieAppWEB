@@ -57,11 +57,12 @@ export class AuthService {
     await this.userRepository.setNewToken(userId, token);
   }
 
-  async registerUser(name: string, email: string, password: string) {
+  async registerUser(name: string, email: string, birthday: Date, password: string) {
     if (await this.isEmailTaken(email)) throw new HttpError(httpErrorStatusCodes.CONFLICT, 'Email is already taken');
     let candidate: User = new User(name, email);
     await candidate.hashPassword(password);
     candidate.role = UserRole.USER;
+    candidate.birthday = birthday;
     return await this.userRepository.save(candidate);
   }
   

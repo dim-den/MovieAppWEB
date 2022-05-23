@@ -12,6 +12,7 @@ class Register extends Component {
     emptyItem = {
         email: '',
         name: '',
+        birthday: null,
         password: '',
         confirmPassword: ''
     };
@@ -20,7 +21,7 @@ class Register extends Component {
         super(props);
         this.state = {
             item: this.emptyItem,
-            formErrors: { email: '', name: '', password: '', confirmPassword: '' },
+            formErrors: { email: '', name: '', birthday: '', password: '', confirmPassword: '' },
             error: null,
             loading: false,
             emailValid: false,
@@ -45,7 +46,7 @@ class Register extends Component {
 
     validateField(fieldName, value) {
         let fieldValidationErrors = this.state.formErrors;
-        let { emailValid, nameValid, passwordValid, confirmPasswordValid } = this.state;
+        let { emailValid, nameValid, birthdayValid, passwordValid, confirmPasswordValid } = this.state;
         switch (fieldName) {
             case 'email':
                 emailValid = /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/.test(value);
@@ -55,10 +56,10 @@ class Register extends Component {
                 nameValid = value.length > 3;
                 fieldValidationErrors.name = nameValid ? '' : ' is invalid';
                 break;
-                case 'name':
-                    nameValid = value.length > 3;
-                    fieldValidationErrors.name = nameValid ? '' : ' is invalid';
-                    break;
+            case 'birthday':
+                birthdayValid = value !== null;
+                fieldValidationErrors.birthday = birthdayValid ? '' : ' is not valid';
+                break;
             case 'password':
                 passwordValid = value.length > 5;
                 fieldValidationErrors.password = passwordValid ? '' : ' is too short';
@@ -75,6 +76,7 @@ class Register extends Component {
             formErrors: fieldValidationErrors,
             emailValid: emailValid,
             nameValid: nameValid,
+            birthdayValid: birthdayValid,
             passwordValid: passwordValid,
             confirmPasswordValid: confirmPasswordValid
         }, this.validateForm);
@@ -82,8 +84,8 @@ class Register extends Component {
 
     validateForm() {
         this.setState({
-            formValid:  this.state.emailValid && this.state.nameValid &&
-            this.state.passwordValid && this.state.confirmPasswordValid
+            formValid: this.state.emailValid && this.state.nameValid &&
+                this.state.passwordValid && this.state.confirmPasswordValid
         });
     }
 
@@ -129,6 +131,11 @@ class Register extends Component {
                         <Label for="title">Name</Label>
                         <Input type="text" name="name" id="name" value={item.name || ''}
                             onChange={this.handleChange} autoComplete="name" />
+                    </div>
+                    <div className={'form-group ${this.errorClass(this.state.formErrors.birthday)}'}>
+                        <Label for="birthday">Birthday</Label>
+                        <Input type="date" name="birthday" id="birthday" value={item.birthday || ''}
+                            onChange={this.handleChange} autoComplete="birthday" />
                     </div>
                     <div className={'form-group ${this.errorClass(this.state.formErrors.password)}'}>
                         <Label for="title">Password</Label>

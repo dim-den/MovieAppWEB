@@ -36,10 +36,7 @@ class Login extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         const { item } = this.state;
-
         this.setState({ error: null, loading: true })
-
-        console.log(item);
 
         axios.post('/api/auth/login', item)
         .then(response => {

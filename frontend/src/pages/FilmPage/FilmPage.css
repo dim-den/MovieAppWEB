@@ -16,7 +16,7 @@
     margin-top: 130px;
     margin-bottom: 150px;
     width: 700px;
-    padding: 5px 15px; 
+    padding: 5px 10px;
     background-color: #fafafa;
     opacity: 0.9;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 3px 5px;
@@ -45,6 +45,15 @@
     display: flex;
     font-size: 17px;
     background-color: #fafafa;
+}
+
+
+.film-score-text {
+    font-size: 44px;
+}
+
+.film-score-10 {
+    margin-top: 30px;
 }
 
 .cards {

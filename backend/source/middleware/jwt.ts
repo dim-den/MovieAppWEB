@@ -12,10 +12,6 @@ export function authenticateJWT(req: Request, res: Response, next: any) {
     jwt.verify(token, jwtConfig.secret!, async (err: any, user: any) => {
       if (err) next(new HttpError(httpErrorStatusCodes.FORBIDDEN, 'access denied'));
       try {
-        // const authService = new AuthService();
-        // const fresh = await authService.setFreshToken(token);
-        // req.headers.authorization = `Bearer ${fresh}`;
-        // res.setHeader('token', fresh);
         next();
       } catch (err) {
         next(err);

@@ -2,6 +2,7 @@ import { Response, Request } from 'express';
 import { body, validationResult } from 'express-validator';
 import { httpErrorStatusCodes } from '../constants/httpErrorStatusCode';
 import { HttpError } from '../util/errors';
+
 export function loginRules() {
   return [body('email').not().isEmpty().bail().isEmail(), body('password').not().isEmpty().bail().isLength({ min: 6 })];
 }
@@ -45,6 +46,7 @@ export function registrationRules() {
   return [
     body('name', 'name lenght should be between 4 and 32' ).isString().bail().isLength({min: 4, max: 32}),
     body('email', 'wrong email').isEmail(),
+    body('birthday', 'birthday should be date').isDate(),
     body('password','Password rules: min lenght 6, at least 1 uppercase, 1 lowercase, 1 number').isString()
     .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,}$/, "i"),
     body('confirmPassword','Confirm password should match password').custom(async (confirmPassword, {req}) => {
