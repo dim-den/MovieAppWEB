@@ -1,14 +1,17 @@
-import express, {Request, Response} from 'express';
+import express, { Request, Response } from 'express';
 import { createConnection } from "typeorm";
 import { router } from './routes/indexRoute';
 import { DbConfig } from './config/dbConfig';
 import { handleErrorMiddleware, handleWrongRoute } from './middleware/errorHandling';
+import { httpsConfig } from './config/httpsConfig';
+var http = require('http');
+var https = require('https');
 
 class Server {
   private app: express.Application;
 
-  constructor(){
-    this.app = express(); 
+  constructor() {
+    this.app = express();
 
     this.configuration();
     this.dbconnection();
@@ -17,6 +20,7 @@ class Server {
 
   public configuration() {
     this.app.set('port', process.env.PORT || 3001);
+    this.app.set('https-port', process.env.HTTPS_PORT || 3003);
     this.app.use(express.json());
   }
 
@@ -24,9 +28,9 @@ class Server {
     await createConnection(DbConfig);
   }
 
-  public async routes(){
+  public async routes() {
     // handle rest api
-    this.app.use(`/api/`, router); 
+    this.app.use(`/api/`, router);
 
     // handle errors
     this.app.use(handleErrorMiddleware);
@@ -35,10 +39,16 @@ class Server {
     router.use(handleWrongRoute);
   }
 
-  public start(){
-    this.app.listen(this.app.get('port'), () => {
-      console.log(`Server is listening ${this.app.get('port')} port.`);
-    });
+  public start() {
+    var httpServer = http.createServer(this.app);
+    var httpsServer = https.createServer(httpsConfig, this.app);
+
+    httpServer.listen(this.app.get('port'));
+    httpsServer.listen(this.app.get('https-port'));
+
+    // this.app.listen(this.app.get('port'), () => {
+    //   console.log(`Server is listening ${this.app.get('port')} port.`);
+    // });
   }
 }
 

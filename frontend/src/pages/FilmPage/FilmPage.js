@@ -219,9 +219,9 @@ class FilmPage extends Component {
                                 : null
                             }
 
+                            <h2>User reviews ({reviewsList.length})</h2>
                             {reviewsList && reviewsList.length > 0 ?
                                 <div>
-                                    <h2>User reviews ({reviewsList.length}):</h2>
                                     <div className="cards">
                                         {reviewsList}
                                     </div>

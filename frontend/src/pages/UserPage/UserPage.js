@@ -86,7 +86,7 @@ class UserPage extends Component {
 
                 let path = "/film/" + filmReview.film.id;
 
-                return <Card border="secondary" className='mt-3' style={{ width: '30rem' }}>
+                return <Card border="secondary" className='mt-3 card'>
                     <Card.Header>
                         <div class="d-flex justify-content-between">
                             <a className='a-film-link' href={path}>
@@ -140,7 +140,9 @@ class UserPage extends Component {
                             {filmReviewsList && filmReviewsList.length > 0 ?
                                 <div>
                                     <h2>User rated films ({filmReviewsList.length}):</h2>
-                                    {filmReviewsList}
+                                    <div className='flex' >
+                                        {filmReviewsList}
+                                    </div>
                                 </div>
                                 :
                                 <h5>No film reviews found</h5>

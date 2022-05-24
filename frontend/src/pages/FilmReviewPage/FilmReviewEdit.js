@@ -27,6 +27,7 @@ class FilmReviewEdit extends Component {
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
             const filmReview = await (await makeTokenizedRequest(`/api/filmReview/${this.props.match.params.id}`)).data;
+            if (filmReview.published) filmReview.published = filmReview.published.substring(0, 10);
             this.setState({ item: filmReview });
         }
     }

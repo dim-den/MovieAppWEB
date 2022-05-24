@@ -18,13 +18,3 @@ export const DbConfig: ConnectionOptions = {
   synchronize: true,
   entities: [User, Film, FilmReview, FilmCast, Actor],
 };
-
-// export const jwt_config = {
-//   secret: process.env.TOKEN_SECRET,
-// };
-
-// export const cloud_config = {
-//   cloud_name: process.env.CLOUD_NAME,
-//   api_key: 667193892397582,
-//   api_secret: process.env.CLOUD_API_SECRET,
-// };
